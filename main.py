@@ -84,7 +84,13 @@ async def on_message(message):
         if (str(message.channel.id) in config['exempt_channels'] or 
             message.author.id == message.guild.owner_id or 
             str(message.author.id) in config['exempt_users'] or
-            any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', []))):
+            # any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', []))):
+            if 'exempt_roles' in config:
+                any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', []))
+            else:
+                # Handle the case where 'exempt_roles' does not exist in 'config'
+                pass
+            
             await bot.process_commands(message)
             return
 
