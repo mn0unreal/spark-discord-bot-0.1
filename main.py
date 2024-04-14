@@ -68,9 +68,9 @@ async def on_message(message):
     if message.author == bot.user:
         return
 # new
-    # Check if the message's channel ID is in the exempt list
-    if str(message.channel.id) in config['exempt_channels']:
-        # Process commands but don't block links in these channels
+    # Check if the message's channel ID is in the exempt list or if the message author is the server owner
+    if str(message.channel.id) in config['exempt_channels'] or message.author.id == message.guild.owner_id:
+        # Process commands but don't block links in these channels or for the server owner
         await bot.process_commands(message)
         return
 # 
