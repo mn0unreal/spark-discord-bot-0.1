@@ -1,9 +1,9 @@
-import os
+import os 
 import discord
 from discord.ext import commands
 import json
 import re  # Import the regular expressions module
-
+import logging
 # Load configuration from config.json
 with open('config.json', 'r') as config_file:
     config = json.load(config_file)
