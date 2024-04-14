@@ -101,6 +101,6 @@ async def on_command_error(ctx, error):
     await ctx.send("Command not found.")
 
 # Load token from environment variable
-discord_token = "ODM2MjE5Njg4MTY0OTE3MzM4.GdkI8N.JDK3oX3rGvoDRGbLRU7mW4wdCioiN_oGqjPu00"
+bot.run(os.environ["DISCORD_TOKEN"])
 
-bot.run(discord_token)
+# bot.run(discord_token)
