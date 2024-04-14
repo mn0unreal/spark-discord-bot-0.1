@@ -11,7 +11,10 @@ with open('config.json', 'r') as config_file:
 # Ensure 'servers' key is present in config
 if 'servers' not in config:
     config['servers'] = {}
-
+# new
+if 'exempt_channels' not in config:
+    config['exempt_channels'] = []
+# 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
@@ -64,7 +67,13 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-
+# new
+    # Check if the message's channel ID is in the exempt list
+    if str(message.channel.id) in config['exempt_channels']:
+        # Process commands but don't block links in these channels
+        await bot.process_commands(message)
+        return
+# 
     if discord_invite_pattern.search(message.content):
         await message.delete()
         await message.channel.send(
