@@ -72,13 +72,20 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Proceed only if the message is in a guild (skip DMs)
+    # Check if the message is sent in a guild (server)
     if message.guild is not None:
-        # Check if the user or channel is exempt
-        if (str(message.channel.id) in config['exempt_channels'] or 
-            message.author.id == message.guild.owner_id or 
-            str(message.author.id) in config['exempt_users'] or
-            any(role.id in config['exempt_roles'] for role in message.author.roles)):
+        # Check if the user or channel is exempt from invite link restrictions
+        exempt = (
+            str(message.channel.id) in config['exempt_channels'] or
+            message.author.id == message.guild.owner_id or
+            str(message.author.id) in config['exempt_users']
+        )
+        
+        # Check roles only if it is in a guild and the user is a Member
+        if hasattr(message.author, 'roles'):
+            exempt = exempt or any(role.id in config['exempt_roles'] for role in message.author.roles)
+        
+        if exempt:
             await bot.process_commands(message)
             return
 
@@ -92,6 +99,7 @@ async def on_message(message):
     else:
         # If it's a DM, just process commands normally
         await bot.process_commands(message)
+        
 
 bot.remove_command('help')  # Remove the default help command
 
