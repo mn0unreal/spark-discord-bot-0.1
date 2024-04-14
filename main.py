@@ -101,8 +101,6 @@ async def on_command_error(ctx, error):
     await ctx.send("Command not found.")
 
 # Load token from environment variable
-
-bot.run(os.environ["RAILWAY_TOKEN"])
-# bot.run(os.environ["DISCORD_TOKEN"])
+bot.run(os.environ["DISCORD_TOKEN"])
 
 # bot.run(discord_token)
