@@ -72,20 +72,19 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Check if the message is sent in a guild (server)
+    # Log basic message info
+    print(f'Message from {message.author} (ID: {message.author.id}) in {"DM" if message.guild is None else "Guild"}')
+
+    # Proceed only if the message is in a guild (skip DMs)
     if message.guild is not None:
-        # Check if the user or channel is exempt from invite link restrictions
-        exempt = (
-            str(message.channel.id) in config['exempt_channels'] or
-            message.author.id == message.guild.owner_id or
-            str(message.author.id) in config['exempt_users']
-        )
-        
-        # Check roles only if it is in a guild and the user is a Member
-        if hasattr(message.author, 'roles'):
-            exempt = exempt or any(role.id in config['exempt_roles'] for role in message.author.roles)
-        
-        if exempt:
+        # Log author type to debug
+        print(f'Author is a {type(message.author)}')
+
+        # Check if the user or channel is exempt
+        if (str(message.channel.id) in config['exempt_channels'] or 
+            message.author.id == message.guild.owner_id or 
+            str(message.author.id) in config['exempt_users'] or
+            any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', []))):
             await bot.process_commands(message)
             return
 
