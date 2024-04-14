@@ -1,1 +1,12 @@
-{"servers": {"dmr": "https://discord.gg/wcwj9SJ", "si": "https://discord.gg/tYrBaKmDwB", "senpai": "https://discord.gg/tYrBaKmDwB", "scrimhouse": "https://discord.gg/yKSzBaNWj5", "sh": "https://discord.gg/yKSzBaNWj5", "nbd": "https://discord.gg/9wnWMd9Ja9", "skyknights": "https://discord.gg/xX6vgqve9U"}}
+{
+  "servers": {
+    "dmr": "https://discord.gg/wcwj9SJ",
+    "si": "https://discord.gg/tYrBaKmDwB", 
+    "senpai": "https://discord.gg/tYrBaKmDwB", 
+    "scrimhouse": "https://discord.gg/yKSzBaNWj5", 
+    "sh": "https://discord.gg/yKSzBaNWj5", 
+    "nbd": "https://discord.gg/9wnWMd9Ja9", 
+    "skyknights": "https://discord.gg/xX6vgqve9U"
+  },
+  "exempt_channels": ["923787509077536794", "934125510697566248", "658202095014641694"] 
+}
