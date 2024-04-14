@@ -11,10 +11,14 @@ with open('config.json', 'r') as config_file:
 # Ensure 'servers' key is present in config
 if 'servers' not in config:
     config['servers'] = {}
-# new
+# new ######
 if 'exempt_channels' not in config:
     config['exempt_channels'] = []
-# 
+if 'exempt_users' not in config:
+    config['exempt_users'] = []
+if 'exempt_roles' not in config:
+    config['exempt_roles'] = []   
+###### 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
@@ -67,13 +71,15 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-# new
+# new ######
     # Check if the message's channel ID is in the exempt list or if the message author is the server owner
-    if str(message.channel.id) in config['exempt_channels'] or message.author.id == message.guild.owner_id:
-        # Process commands but don't block links in these channels or for the server owner
+    if (str(message.channel.id) in config['exempt_channels'] or 
+        message.author.id == message.guild.owner_id or 
+        str(message.author.id) in config['exempt_users'] or
+        any(role.id in config['exempt_roles'] for role in message.author.roles)):
         await bot.process_commands(message)
         return
-# 
+###### 
     if discord_invite_pattern.search(message.content):
         await message.delete()
         await message.channel.send(
