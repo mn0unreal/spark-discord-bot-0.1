@@ -71,21 +71,26 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-# new ######
-    # Check if the message's channel ID is in the exempt list or if the message author is the server owner
-    if (str(message.channel.id) in config['exempt_channels'] or 
-        message.author.id == message.guild.owner_id or 
-        str(message.author.id) in config['exempt_users'] or
-        any(role.id in config['exempt_roles'] for role in message.author.roles)):
-        await bot.process_commands(message)
-        return
-###### 
-    if discord_invite_pattern.search(message.content):
-        await message.delete()
-        await message.channel.send(
-            f"{message.author.mention}, posting other Discord server links is not allowed!"
-        )
+
+    # Proceed only if the message is in a guild (skip DMs)
+    if message.guild is not None:
+        # Check if the user or channel is exempt
+        if (str(message.channel.id) in config['exempt_channels'] or 
+            message.author.id == message.guild.owner_id or 
+            str(message.author.id) in config['exempt_users'] or
+            any(role.id in config['exempt_roles'] for role in message.author.roles)):
+            await bot.process_commands(message)
+            return
+
+        if discord_invite_pattern.search(message.content):
+            await message.delete()
+            await message.channel.send(
+                f"{message.author.mention}, posting other Discord server links is not allowed!"
+            )
+        else:
+            await bot.process_commands(message)
     else:
+        # If it's a DM, just process commands normally
         await bot.process_commands(message)
 
 bot.remove_command('help')  # Remove the default help command
