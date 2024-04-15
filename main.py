@@ -1,4 +1,4 @@
-import os 
+import os
 import discord
 from discord.ext import commands
 import json
@@ -17,8 +17,8 @@ if 'exempt_channels' not in config:
 if 'exempt_users' not in config:
     config['exempt_users'] = []
 if 'exempt_roles' not in config:
-    config['exempt_roles'] = []   
-###### 
+    config['exempt_roles'] = []
+######
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
@@ -28,6 +28,7 @@ bot = commands.Bot(command_prefix="!!", intents=intents)
 # Regex pattern to detect Discord invite links
 discord_invite_pattern = re.compile(
     r'(discord\.(gg|io|me|li)|discord(app)?\.com/invite)/.+', re.IGNORECASE)
+
 
 class LinkCommands(commands.Cog):
     def __init__(self, bot):
@@ -62,10 +63,12 @@ class LinkCommands(commands.Cog):
         else:
             await ctx.send("No servers found.")
 
+
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected')
     await bot.add_cog(LinkCommands(bot))  # Ensure the cog is awaited
+
 
 @bot.event
 async def on_message(message):
@@ -73,36 +76,51 @@ async def on_message(message):
         return
 
     # Log basic message info
-    print(f'Message from {message.author} (ID: {message.author.id}) in {"DM" if message.guild is None else "Guild"}')
+    print(
+        f'Message from {message.author} (ID: {message.author.id}) in {"DM" if message.guild is None else "Guild"}'
+    )
 
     # Proceed only if the message is in a guild (skip DMs)
     if message.guild is not None:
         # Log author type to debug
         print(f'Author is a {type(message.author)}')
 
+        # Check for invite links
+        if discord_invite_pattern.search(message.content):
+            # Check if the user or channel is exempt
+            if (str(message.channel.id) not in config['exempt_channels']
+                    and message.author.id != message.guild.owner_id
+                    and str(message.author.id) not in config['exempt_users']
+                    and
+                ('exempt_roles' in config and
+                 not any(role.id in config['exempt_roles']
+                         for role in getattr(message.author, 'roles', [])))):
+
+                await message.delete()
+                await message.channel.send(
+                    f"{message.author.mention}, posting other Discord server links is not allowed!"
+                )
+                return
+
         # Check if the user or channel is exempt
-        if (str(message.channel.id) in config['exempt_channels'] or
-            message.author.id == message.guild.owner_id or
-            str(message.author.id) in config['exempt_users'] or
-            ('exempt_roles' in config and
-             any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', [])))):
+        if (str(message.channel.id) in config['exempt_channels']
+                or message.author.id == message.guild.owner_id
+                or str(message.author.id) in config['exempt_users'] or
+            ('exempt_roles' in config
+             and any(role.id in config['exempt_roles']
+                     for role in getattr(message.author, 'roles', [])))):
+
             await bot.process_commands(message)
             return
 
-        if discord_invite_pattern.search(message.content):
-            await message.delete()
-            await message.channel.send(
-                f"{message.author.mention}, posting other Discord server links is not allowed!"
-            )
-        else:
-            await bot.process_commands(message)
+        await bot.process_commands(message)
     else:
         # If it's a DM, just process commands normally
         await bot.process_commands(message)
 
-        
 
 bot.remove_command('help')  # Remove the default help command
+
 
 @bot.command(name='help')
 async def custom_help(ctx, *args):
@@ -123,11 +141,15 @@ async def custom_help(ctx, *args):
         else:
             await ctx.send("Command not found.")
 
+
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound) and ctx.message.content.startswith('!!'):
+    if isinstance(
+            error,
+            commands.CommandNotFound) and ctx.message.content.startswith('!!'):
         return  # Ignore the error for custom servers names
     await ctx.send("Command not found.")
+
 
 # Load token from environment variable
 bot.run(os.environ["DISCORD_TOKEN"])
