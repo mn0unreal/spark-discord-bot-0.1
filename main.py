@@ -81,11 +81,11 @@ async def on_message(message):
         print(f'Author is a {type(message.author)}')
 
         # Check if the user or channel is exempt
-        if str(message.channel.id) in config['exempt_channels'] or \
-           message.author.id == message.guild.owner_id or \
-           str(message.author.id) in config['exempt_users'] or \
-           ('exempt_roles' in config and
-            any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', []))):
+        if (str(message.channel.id) in config['exempt_channels'] or
+            message.author.id == message.guild.owner_id or
+            str(message.author.id) in config['exempt_users'] or
+            ('exempt_roles' in config and
+             any(role.id in config['exempt_roles'] for role in getattr(message.author, 'roles', [])))):
             await bot.process_commands(message)
             return
 
