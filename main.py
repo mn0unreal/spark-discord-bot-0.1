@@ -30,16 +30,18 @@ async def is_exempt(message, config):
 
 # Regex pattern to detect Discord invite links
 discord_invite_pattern = re.compile(
-    r'(https?://|www\.|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'
-    r'[\w$-_@.&+!*\\(\\),%]*'
-    r'(?:\.(?:[a-zA-Z]{2,}|'
-    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
-    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
-    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'
-    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)))'
-    r'(?:/[\w$-_@.&+!*\\(\\),%]*)?',
+    r'(https?://|www\.|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'  # Match the start of the URL
+    r'[\w$-_@.&+!*\\(\\),%]*'  # Match the domain/path using \w for word characters
+    r'(?:\.[a-zA-Z]{2,}|'  # Match the TLD
+    r'(?:/[\w$-_@.&+!*\\(\\),%]{1,8})?|'  # Match the short path of a shortened URL
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Start IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Middle IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Middle IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?))'  # End IP address
+    r'(?:/[\w$-_@.&+!*\\(\\),%]*)?',  # Match the path with \w
     re.IGNORECASE
 )
+
 
 intents = discord.Intents.default()
 intents.members = True
