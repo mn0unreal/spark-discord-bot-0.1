@@ -27,7 +27,16 @@ bot = commands.Bot(command_prefix="!!", intents=intents)
 
 # Regex pattern to detect Discord invite links
 discord_invite_pattern = re.compile(
-    r'(discord\.(gg|io|me|li)|discord(app)?\.com/invite)/.+', re.IGNORECASE)
+    r'(https?://|www\.|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'  # Match the start of the URL
+    r'[\w$-_@.&+!*\\(\\),%]*'  # Match the domain/path using \w for word characters
+    r'(?:\.(?:[a-zA-Z]{2,}|'  # Match the TLD or IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Start IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Middle IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.'  # Middle IP address
+    r'(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)))'  # End IP address
+    r'(?:/[\w$-_@.&+!*\\(\\),%]*)?',  # Match the path with \w
+    re.IGNORECASE
+)
 
 
 class LinkCommands(commands.Cog):
