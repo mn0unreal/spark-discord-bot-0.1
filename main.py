@@ -9,12 +9,7 @@ from flask import Flask
 from home import home_blueprint  # Import the blueprint
 
 
-app = Flask(__name__)
-app.register_blueprint(home_blueprint)  # Register the blueprint
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -137,3 +132,12 @@ async def on_command_error(ctx, error):
 
 # Load token from environment variable
 bot.run(os.environ["DISCORD_TOKEN"])
+
+# run web page
+app = Flask(__name__)
+app.register_blueprint(home_blueprint)  # Register the blueprint
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+
