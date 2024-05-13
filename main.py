@@ -7,7 +7,8 @@ import logging
 import aiofiles
 from flask import Flask
 from home import home_blueprint  # Import the blueprint
-from threading import Thread
+# from threading import Thread
+from multiprocessing import Process
 
 
 
@@ -136,22 +137,43 @@ async def on_command_error(ctx, error):
 
 #TOKEN = os.environ["DISCORD_TOKEN"]
 
-def run_bot():
-    bot.run(os.environ["DISCORD_TOKEN"])
+# def run_bot():
+#     bot.run(os.environ["DISCORD_TOKEN"])
     
-# run web page
+# # run web page
+# # Create a function to run the Flask app
+# # def run_app():
+# #     app = Flask(__name__)
+# #     app.register_blueprint(home_blueprint)  # Register the blueprint
+# #     port = int(os.environ.get('PORT', 5000))
+# #     app.run(host='0.0.0.0', port=port)
+
+
+# # Run the Discord bot and Flask app in separate threads
+# bot_thread = Thread(target=run_bot)
+# # app_thread = Thread(target=run_app)
+# bot_thread.start()
+# # app_thread.start()
+
+# Load token from environment variable
+TOKEN = os.environ["DISCORD_TOKEN"]
+
+# Create a function to run the Discord bot
+def run_bot():
+    bot.run(TOKEN)
+
 # Create a function to run the Flask app
-# def run_app():
-#     app = Flask(__name__)
-#     app.register_blueprint(home_blueprint)  # Register the blueprint
-#     port = int(os.environ.get('PORT', 5000))
-#     app.run(host='0.0.0.0', port=port)
+def run_app():
+    app = Flask(__name__)
+    app.register_blueprint(home_blueprint)  # Register the blueprint
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
+# Run the Discord bot and Flask app in separate processes
+bot_process = Process(target=run_bot)
+app_process = Process(target=run_app)
+bot_process.start()
+app_process.start()
 
-# Run the Discord bot and Flask app in separate threads
-bot_thread = Thread(target=run_bot)
-# app_thread = Thread(target=run_app)
-bot_thread.start()
-# app_thread.start()
 
 
