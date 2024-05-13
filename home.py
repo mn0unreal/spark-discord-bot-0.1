@@ -53,8 +53,8 @@ def home():
 
             body {
                 /* Replace 'background.jpg' with the path to your image */
-                /* background-image: url('/image/DMR.png'); */
-                background-image: url("{{ url_for('images', filename='DMR.png') }}");
+                background-image: url('/images/DMR.png');
+                /* background-image: url("{{ url_for('images', filename='DMR.png') }}"); */
                 background-repeat: no-repeat;
                 background-size: cover; /* Resize the background image to cover the entire container */
             }
