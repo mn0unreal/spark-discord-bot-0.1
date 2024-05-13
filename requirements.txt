@@ -1,3 +1,4 @@
 discord.py==2.3.2
 aiofiles==23.2.1
 Flask==3.0.3
+Thread==2.0.1
