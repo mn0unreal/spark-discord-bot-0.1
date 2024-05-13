@@ -84,6 +84,8 @@ def home():
         
             <button id="invite-button" class="invite-button" onclick="showSpinner()">Invite Bot to Server</button>
             
+            <br>
+
             <div id="spinner" class="spinner"></div>
 
             <p id="success-message" class="success-message">Bot successfully invited to server!</p>
