@@ -141,17 +141,17 @@ def run_bot():
     
 # run web page
 # Create a function to run the Flask app
-def run_app():
-    app = Flask(__name__)
-    app.register_blueprint(home_blueprint)  # Register the blueprint
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+# def run_app():
+#     app = Flask(__name__)
+#     app.register_blueprint(home_blueprint)  # Register the blueprint
+#     port = int(os.environ.get('PORT', 5000))
+#     app.run(host='0.0.0.0', port=port)
 
 
 # Run the Discord bot and Flask app in separate threads
 bot_thread = Thread(target=run_bot)
-app_thread = Thread(target=run_app)
+# app_thread = Thread(target=run_app)
 bot_thread.start()
-app_thread.start()
+# app_thread.start()
 
 
