@@ -41,6 +41,11 @@ def home():
                 display: none;
             }
 
+            .success-message {
+                color: green; /* Green text */
+                display: none; /* Initially hidden */
+            }
+
             @keyframes spin {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
@@ -52,15 +57,29 @@ def home():
                 var spinner = document.getElementById('spinner');
                 btn.disabled = true; // disable the button
                 spinner.style.display = 'inline-block'; // show the spinner
+
+                // Simulate an asynchronous operation (e.g., inviting the bot to the server)
+                setTimeout(function() {
+                    spinner.style.display = 'none'; // hide the spinner
+                    successMessage.style.display = 'block'; // show the success message
+                }, 2000); // 2 seconds delay
             }
         </script>
     </head>
     <body style="text-align: center; padding-top: 30px;">
-        <h2>Welcome to My Modern Website!</h2>
+    
+        <h2>Welcome to DMR Bot!</h2>
+        
         <p>Join us and explore the possibilities!</p>
+        
         <a href="https://discord.com/oauth2/authorize?client_id=836219688164917338" target="_blank">
+        
             <button id="invite-button" class="invite-button" onclick="showSpinner()">Invite Bot to Server</button>
+            
             <div id="spinner" class="spinner"></div>
+
+            <p id="success-message" class="success-message">Bot successfully invited to server!</p>
+
         </a>
     </body>
 </html> """
