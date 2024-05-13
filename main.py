@@ -166,7 +166,7 @@ def run_bot():
 def run_app():
     app = Flask(__name__)
     app.register_blueprint(home_blueprint)  # Register the blueprint
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=port)
 
 # Run the Discord bot and Flask app in separate processes
