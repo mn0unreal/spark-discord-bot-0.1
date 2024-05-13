@@ -54,6 +54,8 @@ def home():
             body {
                 /*background*/
                 background-color: gray;
+                text-align: center;
+                padding-top: 30px;
             }
 
         </style>
@@ -72,7 +74,7 @@ def home():
             }
         </script>
     </head>
-    <body style="text-align: center; padding-top: 30px;">
+    <body style="">
     
         <h2>Welcome to DMR Bot!</h2>
         
