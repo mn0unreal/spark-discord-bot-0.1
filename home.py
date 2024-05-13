@@ -74,7 +74,7 @@ def home():
             }
         </script>
     </head>
-    <body style="">
+    <body>
     
         <h2>Welcome to DMR Bot!</h2>
         
