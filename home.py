@@ -50,6 +50,14 @@ def home():
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
             }
+
+            body {
+                /* Replace 'background.jpg' with the path to your image */
+                background-image: url('/image/DMR.png');
+                background-repeat: no-repeat;
+                background-size: cover; /* Resize the background image to cover the entire container */
+            }
+
         </style>
         <script>
             function showSpinner() {
