@@ -4,41 +4,43 @@ home_blueprint = Blueprint('home', __name__)
 
 @home_blueprint.route('/')
 def home():
-    html = """
-<html>
+    html = """ <html>
     <head>
         <style>
-            .invite-button {
-                background-color: #007BFF; /* Blue background */
-                color: white; /* White text */
-                border: none; /* Remove default button border */
-                padding: 15px 32px; /* Increase button size */
-                text-align: center; /* Center button text */
-                text-decoration: none; /* Remove default button underline */
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                border-radius: 4px; /* Rounded button corners */
-                transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+            /* ...existing CSS... */
+
+            /* CSS for the spinner */
+            .spinner {
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #3498db;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                animation: spin 2s linear infinite;
+                display: none;
             }
 
-            .invite-button:hover {
-                background-color: #0056b3; /* Darker blue background on hover */
-            }
-
-            .invite-button:active {
-                transform: scale(0.95); /* Slightly reduce size when clicked */
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
         </style>
+        <script>
+            function showSpinner() {
+                var btn = document.getElementById('invite-button');
+                var spinner = document.getElementById('spinner');
+                btn.disabled = true; // disable the button
+                spinner.style.display = 'inline-block'; // show the spinner
+            }
+        </script>
     </head>
     <body style="text-align: center; padding-top: 30px;">
         <h2>Welcome to My Modern Website!</h2>
         <p>Join us and explore the possibilities!</p>
         <a href="https://discord.com/oauth2/authorize?client_id=836219688164917338" target="_blank">
-            <button class="invite-button">Invite Bot to Server</button>
+            <button id="invite-button" class="invite-button" onclick="showSpinner()">Invite Bot to Server</button>
+            <div id="spinner" class="spinner"></div>
         </a>
     </body>
-</html>
-    """
+</html> """
     return render_template_string(html)
