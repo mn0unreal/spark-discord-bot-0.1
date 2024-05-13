@@ -7,7 +7,28 @@ def home():
     html = """ <html>
     <head>
         <style>
-            /* ...existing CSS... */
+             .invite-button {
+                background-color: #007BFF; /* Blue background */
+                color: white; /* White text */
+                border: none; /* Remove default button border */
+                padding: 15px 32px; /* Increase button size */
+                text-align: center; /* Center button text */
+                text-decoration: none; /* Remove default button underline */
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                border-radius: 4px; /* Rounded button corners */
+                transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+            }
+
+            .invite-button:hover {
+                background-color: #0056b3; /* Darker blue background on hover */
+            }
+
+            .invite-button:active {
+                transform: scale(0.95); /* Slightly reduce size when clicked */
+            }
 
             /* CSS for the spinner */
             .spinner {
