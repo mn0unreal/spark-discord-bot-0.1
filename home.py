@@ -52,10 +52,7 @@ def home():
             }
 
             body {
-                /* Replace 'background.jpg' with the path to your image */
-                background-image: url('images/DMR.png');
-                background-repeat: no-repeat;
-                background-size: cover; /* Resize the background image to cover the entire container */
+                /*background*/
                 background-color: gray;
             }
 
