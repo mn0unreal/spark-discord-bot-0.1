@@ -134,10 +134,10 @@ async def on_command_error(ctx, error):
 # Load token from environment variable
 #bot.run(os.environ["DISCORD_TOKEN"])
 
-TOKEN = os.environ["DISCORD_TOKEN"]
+#TOKEN = os.environ["DISCORD_TOKEN"]
 
 def run_bot():
-    bot.run(TOKEN)
+    bot.run(os.environ["DISCORD_TOKEN"])
     
 # run web page
 # Create a function to run the Flask app
